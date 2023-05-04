@@ -1,0 +1,2241 @@
+#include <iostream>
+using namespace std;
+#include "roleListBuilder"
+#include <cmath>
+#include <stdlib.h>
+#include <string>
+#include <time.h>
+#include <unistd.h>
+
+string generateKing(int unseenActive, int cultActive, int vampiresActive,
+                    int infiltrationActive, int num) {
+  // cout << "Trying to generate a King" << endl;
+  int randomInteger = rand() % 100;
+  string king = "nothing";
+  if (randomInteger < 65 || num < 12) {
+    return "Good King";
+  } else if (num >= 12 && num < 16) {
+
+    while (king == "nothing") {
+      // cout << "DEBUG: num is between 12 and 15. Selecting from Good and Evil
+      // (non psycho)
+      // "
+      //"Kings." << endl;
+      int randomNum = rand() % 4;
+      if (randomNum == 0 && unseenActive == 1) {
+        king = "Unseen King";
+      } else if (randomNum == 1 && cultActive == 1) {
+        king = "Cult King";
+      } else if (randomNum == 2 && vampiresActive == 1) {
+        king = "Vampire King";
+      } else if (randomNum == 3 && infiltrationActive == 1) {
+        king = "Denwir King";
+      }
+    }
+    return king;
+  } else if (num >= 16) {
+
+    if (randomInteger < 85) {
+      string king = "nothing";
+      while (king == "nothing") {
+        // cout << "DEBUG: num is greater than 15. Choosing between all Kings."
+        //<< endl;
+        int randomNum = rand() % 4;
+        // cout << randomNum << endl;
+        if (randomNum == 0 && unseenActive == 1) {
+          king = "Unseen King";
+        } else if (randomNum == 1 && cultActive == 1) {
+          king = "Cult King";
+        } else if (randomNum == 2 && vampiresActive == 1) {
+          king = "Vampire King";
+        } else if (randomNum == 3 && infiltrationActive == 1) {
+          king = "Denwir King";
+        }
+      }
+      return king;
+    } else if (randomInteger < 95 || num < 16) {
+      return "Neutral King";
+    } else {
+      return "Psycho King";
+    }
+  }
+  return "error";
+}
+
+string generateQueen(int unseenActive, int cultActive, int vampiresActive,
+                     int infiltrationActive, int num) {
+  int randomInteger = rand() % 100;
+
+  if (randomInteger < 65 || num < 12) {
+    return "Good Queen";
+  } else if (num >= 12 && num < 16) {
+    string queen = "nothing";
+    while (queen == "nothing") {
+      int randomNum = rand() % 4;
+      if (randomNum == 0 && unseenActive == 1) {
+        queen = "Unseen Queen";
+      } else if (randomNum == 1 && cultActive == 1) {
+        queen = "Cult Queen";
+      } else if (randomNum == 2 && vampiresActive == 1) {
+        queen = "Vampire Queen";
+      } else if (randomNum == 3 && infiltrationActive == 1) {
+        queen = "Denwir Queen";
+      }
+    }
+    return queen;
+  } else if (num >= 16) {
+
+    if (randomInteger < 85) {
+      string queen = "nothing";
+      while (queen == "nothing") {
+        int randomNum = rand() % 4;
+        if (randomNum == 0 && unseenActive == 1) {
+          queen = "Unseen Queen";
+        } else if (randomNum == 1 && cultActive == 1) {
+          queen = "Cult Queen";
+        } else if (randomNum == 2 && vampiresActive == 1) {
+          queen = "Vampire Queen";
+        } else if (randomNum == 3 && infiltrationActive == 1) {
+          queen = "Denwir Queen";
+        }
+      }
+      return queen;
+    } else if (randomInteger < 95 || num < 16) {
+      return "Neutral Queen";
+    } else {
+      return "Psycho Queen";
+    }
+  }
+  return "error";
+}
+
+string generateBDInvestigative(int unseenActive, int cultActive,
+                               int vampiresActive, int infiltrationActive) {
+  string possibleRoles[1 + unseenActive + cultActive + vampiresActive +
+                       infiltrationActive];
+  if (unseenActive == 1) {
+    possibleRoles[0] = "Sheriff";
+  }
+  if (cultActive == 1) {
+    possibleRoles[unseenActive] = "Paladin";
+  }
+  if (vampiresActive == 1) {
+    possibleRoles[unseenActive + cultActive] = "Priest";
+  }
+  if (infiltrationActive == 1) {
+    possibleRoles[unseenActive + cultActive + vampiresActive] = "Spy";
+  }
+
+  int randomNumber = rand() % (unseenActive + cultActive + vampiresActive +
+                               infiltrationActive);
+  return possibleRoles[randomNumber];
+}
+
+string chooseRandomBlueDragonClass(int unseenActive, int cultActive,
+                                   int vampiresActive, int infiltrationActive) {
+  while (true) {
+    int randomInteger = rand() % (19 + unseenActive + cultActive +
+                                  vampiresActive + infiltrationActive);
+    string possibleRoles[19 + unseenActive + cultActive + vampiresActive +
+                         infiltrationActive];
+
+    possibleRoles[0] = "Astromancer";
+    possibleRoles[1] = "Barkeep";
+    possibleRoles[2] = "Blacksmith";
+    possibleRoles[3] = "Butler";
+    possibleRoles[4] = "Chronomancer";
+    possibleRoles[5] = "Court Wizard";
+    possibleRoles[6] = "Druid";
+    possibleRoles[7] = "Drunk";
+    possibleRoles[8] = "Hunter";
+    possibleRoles[9] = "Knight";
+    possibleRoles[10] = "Mason";
+    possibleRoles[11] = "Maid";
+    possibleRoles[12] = "Mystic";
+    possibleRoles[13] = "Noble";
+    possibleRoles[14] = "Observer";
+    possibleRoles[15] = "Psychic";
+    possibleRoles[16] = "Physician";
+    possibleRoles[17] = "Prince";
+    possibleRoles[18] = "Princess";
+    if (unseenActive == 1) {
+      possibleRoles[19] = "Sheriff";
+    }
+    if (cultActive == 1) {
+      possibleRoles[18 + unseenActive + cultActive] = "Paladin";
+    }
+    if (vampiresActive == 1) {
+      possibleRoles[18 + unseenActive + cultActive + vampiresActive] = "Priest";
+    }
+    if (infiltrationActive == 1) {
+      possibleRoles[18 + unseenActive + cultActive + vampiresActive +
+                    infiltrationActive] = "Spy";
+    }
+
+    if (possibleRoles[randomInteger] == "Prince" ||
+        possibleRoles[randomInteger] == "Astromancer" ||
+        possibleRoles[randomInteger] == "Druid") {
+      int randomInteger2 = rand() % 100;
+      if (randomInteger2 < 25) {
+        return possibleRoles[randomInteger];
+      }
+    } else
+      return possibleRoles[randomInteger];
+  }
+}
+
+string chooseRandomNeutralClass() {
+  int randomInteger = rand() % 12;
+  string possibleRoles[12];
+
+  possibleRoles[0] = "Alchemist";
+  possibleRoles[1] = "Mercenary";
+  possibleRoles[2] = "Fool";
+  possibleRoles[3] = "Scorned";
+  possibleRoles[4] = "Inquisitor";
+  possibleRoles[5] = "Sellsword";
+  possibleRoles[6] = "Pretender";
+  possibleRoles[7] = "Wanderer";
+  possibleRoles[8] = "Bandit";
+  possibleRoles[9] = "Guardian Angel";
+  possibleRoles[10] = "Necromancer";
+  possibleRoles[11] = "Witch & Cat";
+
+  return possibleRoles[randomInteger];
+}
+
+string chooseRandomUnseenClass(int cultActive, int vampiresActive,
+                               int infiltrationActive) {
+  int randomInteger =
+      rand() % (17 + cultActive + vampiresActive + infiltrationActive);
+  string possibleRoles[17 + cultActive + vampiresActive + infiltrationActive];
+  possibleRoles[0] = "Alcoholic";
+  possibleRoles[1] = "Aristocrat";
+  possibleRoles[2] = "Duchess";
+  possibleRoles[3] = "Enforcer";
+  possibleRoles[4] = "Handmaiden";
+  possibleRoles[5] = "Herbalist";
+  possibleRoles[6] = "Illusionist";
+  possibleRoles[7] = "Marshal";
+  possibleRoles[8] = "Medium";
+  possibleRoles[9] = "Nightwatch";
+  possibleRoles[10] = "Poacher";
+  possibleRoles[11] = "Sage";
+  possibleRoles[12] = "Servant";
+  possibleRoles[13] = "Timesnatcher";
+  possibleRoles[14] = "Instigator";
+  possibleRoles[15] = "Trapper";
+  possibleRoles[16] = "Barmaid";
+
+  if (cultActive == 1) {
+    possibleRoles[17] = "Ambusher";
+  }
+  if (vampiresActive == 1) {
+    possibleRoles[17 + cultActive] = "Bishop";
+  }
+  if (infiltrationActive == 1) {
+    possibleRoles[17 + cultActive + vampiresActive] = "Blackmailer";
+  }
+
+  return possibleRoles[randomInteger];
+}
+
+string chooseRandomNeutralKiller() {
+  int randomInteger = rand() % 8;
+  string possibleRoles[8];
+
+  possibleRoles[0] = "Reaper";
+  possibleRoles[1] = "Plaguebearer";
+  possibleRoles[2] = "Possessor";
+  possibleRoles[3] = "Sorcerer";
+  possibleRoles[4] = "Juggernaut";
+  possibleRoles[5] = "Voodoo Demon";
+  possibleRoles[6] = "Doomsday Harbinger";
+  possibleRoles[7] = "Storm Elemental";
+
+  return possibleRoles[randomInteger];
+}
+
+string generateEvilMember(int number, int unseenActive, int cultActive,
+                          int vampiresActive, int infiltrationActive, int count,
+                          string generating) {
+  // cout << number << endl;
+  // cout << gameType << endl;
+  // cout << count << endl;
+  int randomInteger = rand() % 100;
+  // cout << randomInteger << endl;
+  if (number == 1) {
+    // cout << "number == 1" << endl;
+
+    if (unseenActive == 1 && generating == "Unseen") {
+      if (count >= 10) {
+        // cout << "Returning Mastermind." << endl;
+        return "Mastermind";
+      } else if (count < 10) {
+        // cout << "Returning Assassin." << endl;
+        return "Assassin";
+        // cout << "You shouldn't reach here." << endl;
+      }
+      // cout << "Or here" << endl;
+    }
+    if (cultActive == 1 && generating == "Cult") {
+      // cout << "Returning Cult Leader." << endl;
+      return "Cult Leader";
+    } else if (vampiresActive == 1 && generating == "Vampires") {
+      return "Master";
+    } else if (infiltrationActive == 1 && generating == "Infiltration") {
+      return "Captain";
+    }
+  } else if (number != 1) {                            // Number != 1
+    if (unseenActive == 1 && generating == "Unseen") { // Game is Unseen
+      if (number == 2) { // Game is Unseen, Number == 2
+        return "Assassin";
+      } else if (number > 2) { // Game is Unseen, Number > 2
+        // cout << "Third Unseen member... oh boy" << endl;
+        return chooseRandomUnseenClass(cultActive, vampiresActive,
+                                       infiltrationActive);
+      }
+    } else if (cultActive == 1 &&
+               generating == "Cult") { // Cult Game, this isn't number == 1
+      if (randomInteger >= 75) {
+        return "Invoker";
+      } else if (randomInteger >= 50) {
+        return "Seeker";
+      } else if (randomInteger >= 25) {
+        return "Ritualist";
+      } else {
+        return "Apostle";
+      }
+    } else if (vampiresActive == 1 && generating == "Vampires") { // Vampire
+                                                                  // Game
+      if (number == 2) {
+        return "Count";
+      } else {
+        return "Vampire";
+      }
+    } else if (infiltrationActive == 1 && generating == "Infiltration") {
+      if (number == 2) {
+        return "Brute";
+      } else {
+        if (randomInteger >= 80) {
+          return "Hitman";
+        } else if (randomInteger >= 60) {
+          return "Grave Digger";
+        } else if (randomInteger >= 40) {
+          return "Mage";
+        } else if (randomInteger >= 20) {
+          return "Emissary";
+        } else {
+          return "Diplomat";
+        }
+      }
+    }
+  }
+}
+
+int countBD(int num) {
+  if (num == 8) {
+    return 4;
+  }
+  if (num >= 9 && num <= 12) {
+    return 5;
+  }
+  if (num == 13) {
+    return 6;
+  }
+  if (num >= 14 && num <= 16) {
+    return 7;
+  }
+  if (num >= 17 && num <= 18) {
+    return 8;
+  }
+  if (num >= 19 && num <= 20) {
+    return 9;
+  }
+  if (num >= 21 && num <= 24) {
+    return 10;
+  }
+
+  int tempNum = 25;
+  int count = 10;
+  while (tempNum <= num) {
+    if ((tempNum - 24) % 2 == 1) {
+      count++;
+    }
+    tempNum++;
+  }
+  return count;
+}
+
+int countInvestigatives(int num) {
+  if (num < 12) {
+    return -1;
+  }
+  if (num >= 12 && num < 23) {
+    return 1;
+  }
+  if (num >= 23) {
+    return 2;
+  }
+
+  return -1;
+}
+int countNeutrals(int num) {
+  if (num <= 10) {
+    return 0;
+  }
+  if (num > 10 && num < 18) {
+    return 1;
+  }
+  if (num >= 18 && num < 22) {
+    return 2;
+  }
+  if (num >= 22 && num <= 24) {
+    return 3;
+  }
+
+  int tempNum = 25;
+  int count = 3;
+  while (tempNum <= num) {
+    if (((tempNum - 24) % 8 == 2) || ((tempNum - 24) % 8 == 6)) {
+      count++;
+    }
+    tempNum++;
+  }
+  return count;
+}
+
+int countEvils(int num) {
+  if (num < 15) {
+    return 1;
+  }
+  if (num >= 15 && num < 20) {
+    return 2;
+  }
+  if (num >= 20 && num <= 24) {
+    return 3;
+  }
+
+  int tempNum = 25;
+  int count = 3;
+  while (tempNum <= num) {
+    if ((tempNum - 24) % 8 == 4) {
+      count++;
+    }
+    tempNum++;
+  }
+  return count;
+}
+
+int countUnseen(int unseenActive, int cultActive, int vampiresActive,
+                int infiltrationActive, int numberOfEvils) {
+  int factionCount =
+      unseenActive + cultActive + vampiresActive + infiltrationActive;
+  // cout << "factionCount == " << factionCount << endl;
+  if (unseenActive == 1) {
+    if (factionCount == 1) {
+      return numberOfEvils;
+    }
+    if (factionCount == 2) {
+      if (numberOfEvils % 2 == 1 && infiltrationActive == 1) {
+        return numberOfEvils / 2 + 1;
+      } else
+        return numberOfEvils / 2;
+    }
+    if (factionCount == 3) {
+      if (infiltrationActive == 0) {
+        return numberOfEvils / 3;
+      } else {
+        return (numberOfEvils + 1) / 3;
+      }
+    }
+    if (factionCount == 4) {
+      return (numberOfEvils + 1) / 4;
+    }
+  } else
+    return 0;
+  return 0;
+}
+
+int countCult(int unseenActive, int cultActive, int vampiresActive,
+              int infiltrationActive, int numberOfEvils) {
+  int factionCount =
+      unseenActive + cultActive + vampiresActive + infiltrationActive;
+  if (cultActive == 1) {
+    if (factionCount == 1) {
+      return numberOfEvils;
+    } else if (factionCount == 2) {
+      if (numberOfEvils % 2 == 1) {
+        return numberOfEvils / 2 + 1;
+      } else
+        return numberOfEvils / 2;
+    } else if (factionCount == 3) {
+      return (numberOfEvils + 2) / 3;
+    } else if (factionCount == 4) {
+      return (numberOfEvils + 3) / 4;
+    }
+  } else
+    return 0;
+  return 0;
+}
+int countVampires(int unseenActive, int cultActive, int vampiresActive,
+                  int infiltrationActive, int numberOfEvils) {
+  int factionCount =
+      unseenActive + cultActive + vampiresActive + infiltrationActive;
+  if (vampiresActive == 1) {
+    if (factionCount == 1) {
+      return numberOfEvils;
+    } else if (factionCount == 2) {
+      if (cultActive == 0 && numberOfEvils % 2 == 1) {
+        return numberOfEvils / 2 + 1;
+      } else
+        return numberOfEvils / 2;
+    } else if (factionCount == 3) {
+      if (cultActive == 0) {
+        return (numberOfEvils + 2) / 3;
+      } else {
+        return (numberOfEvils + 1) / 3;
+      }
+    } else if (factionCount == 4) {
+      return (numberOfEvils + 2) / 4;
+    }
+  } else
+    return 0;
+  return 0;
+}
+int countInfiltration(int unseenActive, int cultActive, int vampiresActive,
+                      int infiltrationActive, int numberOfEvils) {
+  int factionCount =
+      unseenActive + cultActive + vampiresActive + infiltrationActive;
+  if (infiltrationActive == 1) {
+    if (factionCount == 1) {
+      return numberOfEvils;
+    } else if (factionCount == 2) {
+      return numberOfEvils / 2;
+    } else if (factionCount == 3) {
+      return (numberOfEvils) / 3;
+    } else if (factionCount == 4) {
+      return numberOfEvils / 4;
+    }
+  } else
+    return 0;
+  return 0;
+}
+int countNeutralKillers(int num) {
+  if (num < 16) {
+    return 0;
+  }
+
+  int tempNum = 16;
+  int count = 0;
+  while (tempNum <= num) {
+    if ((tempNum - 16) % 8 == 0) {
+      count++;
+    }
+    tempNum++;
+  }
+  return count;
+}
+string generateGCURole(string role, bool gcuSwitch) {
+  if (gcuSwitch == true) {
+    if (role == "Butler") {
+      role = "Business Major";
+    }
+    if (role == "Chronomancer") {
+      role = "Professor Who Pushes Back Assignments";
+    }
+    if (role == "Court Wizard") {
+      role = "Participation Points";
+    }
+    if (role == "Drunk") {
+      role = "Stampeder";
+    }
+    if (role == "Hunter") {
+      role = "Basketball Team";
+    }
+    if (role == "Knight") {
+      role = "Thunder";
+    }
+    if (role == "Maid") {
+      role = "Gamer";
+    }
+    if (role == "Mason") {
+      role = "Life Leader";
+    }
+    if (role == "Mystic") {
+      role = "Nursing Major";
+    }
+    if (role == "Noble") {
+      role = "Biology Classmate";
+    }
+    if (role == "Observer") {
+      role = "Welcome Crew";
+    }
+    if (role == "Paladin") {
+      role = "Perfect Student";
+    }
+    if (role == "Physician") {
+      role = "Super Target Employee";
+    }
+    if (role == "Priest") {
+      role = "Janitor";
+    }
+    if (role == "Prince") {
+      role = "ACE Center";
+    }
+    if (role == "Princess") {
+      role = "Drake Anderson";
+    }
+    if (role == "Psychic") {
+      role = "Parking Pass";
+    }
+    if (role == "Sheriff") {
+      role = "Studious";
+    }
+    if (role == "Spy") {
+      role = "Average Swim Enjoyer";
+    }
+    if (role == "Assassin") {
+      role = "Quiet Kid";
+    }
+    if (role == "Mastermind") {
+      role = "Evan Kliewer";
+    }
+    if (role == "Apostle") {
+      role = "18 GCU Instagram Accounts";
+    }
+    if (role == "Cult Leader") {
+      role = "Taylor Taff";
+    }
+    if (role == "Invoker") {
+      role = "Affordable";
+    }
+    if (role == "Ritualist") {
+      role = "Christian";
+    }
+    if (role == "Seeker") {
+      role = "Private";
+    }
+    if (role == "Alchemist") {
+      role = "Sketchy Wal-Mart";
+    }
+    if (role == "Bandit") {
+      role = "Ice Cube Bandit";
+    }
+    if (role == "Fool") {
+      role = "Class Clown";
+    }
+    if (role == "Guardian Angel") {
+      role = "Math Tutor";
+    }
+    if (role == "Inquisitor") {
+      role = "Doctor McCarthy";
+    }
+    if (role == "Mercenary") {
+      role = "Really Abnormally Large Tuition";
+    }
+    if (role == "Juggernaut") {
+      role = "Fire Alarm";
+    }
+    if (role == "Plaguebearer") {
+      role = "COVID-19";
+    }
+    if (role == "Possessor") {
+      role = "GCU Construction Team";
+    }
+    if (role == "Pretender") {
+      role = "SSC";
+    }
+    if (role == "Reaper") {
+      role = "Final Exam";
+    }
+    if (role == "Scorned") {
+      role = "Public Safety";
+    }
+    if (role == "Sellsword") {
+      role = "Ricardo Citro";
+    }
+    if (role == "Sorcerer") {
+      role = "Neighborhood Outside Campus";
+    }
+    if (role == "Voodoo Demon") {
+      role = "Honors College";
+    }
+    if (role == "Wanderer") {
+      role = "Incoming Freshman";
+    }
+    if (role == "Good King") {
+      role = "Good Brian Mueller";
+    }
+    if (role == "Unseen King") {
+      role = "Lopes Down Brian Mueller";
+    }
+    if (role == "Cult King") {
+      role = "Annoying Brian Mueller";
+    }
+    if (role == "Vampire King") {
+      role = "Rat Brian Mueller";
+    }
+    if (role == "Denwir King") {
+      role = "Kinda Sus Brian Mueller";
+    }
+    if (role == "Neutral King") {
+      role = "Indifferent Brian Mueller";
+    }
+    if (role == "Psycho King") {
+      role = "True Brian Mueller";
+    }
+    if (role == "Good Queen") {
+      role = "Good Brianna Mueller";
+    }
+    if (role == "Unseen Queen") {
+      role = "Lopes Down Brianna Mueller";
+    }
+    if (role == "Cult Queen") {
+      role = "Annoying Brianna Mueller";
+    }
+    if (role == "Vampire Queen") {
+      role = "Rat Brianna Mueller";
+    }
+    if (role == "Denwir Queen") {
+      role = "Kinda Sus Brianna Mueller";
+    }
+    if (role == "Neutral Queen") {
+      role = "Indifferent Brianna Mueller";
+    }
+    if (role == "Psycho Queen") {
+      role = "True Brianna Mueller";
+    }
+
+    if (role == "Aloholic") {
+      role = "ASU Student";
+    }
+    if (role == "Aristocrat") {
+      role = "QDOBA Employee";
+    }
+    if (role == "Bishop") {
+      role = "Cow Guy";
+    }
+    if (role == "Blackmailer") {
+      role = "Average Water Polo Fan";
+    }
+    if (role == "Duchess") {
+      role = "Businesswoman Off Campus";
+    }
+    if (role == "Enforcer") {
+      role = "Kid Who Tells The Professor About The Homework They Forgot To "
+             "Assign";
+    }
+    if (role == "Handmaiden") {
+      role = "Lopes Wifi Guy";
+    }
+    if (role == "Herbalist") {
+      role = "Drug Dealer";
+    }
+    if (role == "Instigator") {
+      role = "Mormon";
+    }
+    if (role == "Illusionist") {
+      role = "Gaslighter";
+    }
+    if (role == "Marshal") {
+      role = "Phoenix Police Department";
+    }
+    if (role == "Medium") {
+      role = "Housing Department";
+    }
+    if (role == "Nightwatch") {
+      role = "Nice Guy";
+    }
+    if (role == "Poacher") {
+      role = "ASU Basketball Team";
+    }
+    if (role == "Sage") {
+      role = "LopesWrite Score";
+    }
+    if (role == "Servant") {
+      role = "Partygoer";
+    }
+    if (role == "Timesnatcher") {
+      role = "Midterms";
+    }
+
+    if (role == "Master") {
+      role = "Trinity Hansen";
+    }
+    if (role == "Count") {
+      role = "Wormtail";
+    }
+    if (role == "Vampire") {
+      role = "Rat";
+    }
+
+    if (role == "Brute") {
+      role = "Smell Outside Panda Express";
+    }
+    if (role == "Captain") {
+      role = "James Lees";
+    }
+    if (role == "Diplomat") {
+      role = "Lopes Barstool Account";
+    }
+    if (role == "Emissary") {
+      role = "Forensics Major";
+    }
+    if (role == "Grave Digger") {
+      role = "Grove Pool Manager";
+    }
+    if (role == "Hitman") {
+      role = "Red Impostor";
+    }
+    if (role == "Mage") {
+      role = "Canyon Pizza Company Employee";
+    }
+
+    if (role == "Blue Dragon") {
+      role = "Decent People";
+    }
+    if (role == "Blue Dragon Investigative") {
+      role = "Decent People Intrusive";
+    }
+    if (role == "Unseen") {
+      role = "Lopes Down";
+    }
+    if (role == "Cult") {
+      role = "Annoying";
+    }
+    if (role == "Vampire") {
+      role = "Rat";
+    }
+    if (role == "Infiltration") {
+      role = "Kinda Sus";
+    }
+    if (role == "Neutral") {
+      role = "Indifferent";
+    }
+    if (role == "Neutral Killer") {
+      role = "Indifferent Expeller";
+    }
+  }
+  return role;
+}
+
+string convertToFactionType(string role) {
+  if (role == "Butler") {
+    return ("Blue Dragon");
+  }
+  if (role == "Chronomancer") {
+    return ("Blue Dragon");
+  }
+  if (role == "Court Wizard") {
+    return ("Blue Dragon");
+  }
+  if (role == "Drunk") {
+    return ("Blue Dragon");
+  }
+  if (role == "Knight") {
+    return ("Blue Dragon");
+  }
+  if (role == "Hunter") {
+    return ("Blue Dragon");
+  }
+  if (role == "Mystic") {
+    return ("Blue Dragon");
+  }
+  if (role == "Maid") {
+    return ("Blue Dragon");
+  }
+  if (role == "Mason") {
+    return ("Blue Dragon");
+  }
+  if (role == "Noble") {
+    return ("Blue Dragon");
+  }
+  if (role == "Observer") {
+    return ("Blue Dragon");
+  }
+  if (role == "Paladin") {
+    return ("Blue Dragon Hard-Counter");
+  }
+  if (role == "Physician") {
+    return ("Blue Dragon");
+  }
+  if (role == "Priest") {
+    return ("Blue Dragon Hard-Counter");
+  }
+  if (role == "Princess") {
+    return ("Blue Dragon");
+  }
+  if (role == "Prince") {
+    return ("Prince");
+  }
+  if (role == "Psychic") {
+    return ("Blue Dragon");
+  }
+  if (role == "Sheriff") {
+    return ("Blue Dragon Hard-Counter");
+  }
+
+  if (role == "Alcoholic") {
+    return ("Unseen");
+  }
+  if (role == "Aristocrat") {
+    return ("Unseen");
+  }
+  if (role == "Assassin") {
+    return ("Unseen");
+  }
+  if (role == "Duchess") {
+    return ("Unseen");
+  }
+  if (role == "Enforcer") {
+    return ("Unseen");
+  }
+  if (role == "Handmaiden") {
+    return ("Unseen");
+  }
+  if (role == "Herbalist") {
+    return ("Unseen");
+  }
+  if (role == "Illusionist") {
+    return ("Unseen");
+  }
+  if (role == "Mastermind") {
+    return ("Unseen");
+  }
+  if (role == "Marshal") {
+    return ("Unseen");
+  }
+  if (role == "Nightwatch") {
+    return ("Unseen");
+  }
+  if (role == "Poacher") {
+    return ("Unseen");
+  }
+  if (role == "Sage") {
+    return ("Unseen");
+  }
+  if (role == "Servant") {
+    return ("Unseen");
+  }
+  if (role == "Timesnatcher") {
+    return ("Unseen");
+  }
+
+  if (role == "Apostle") {
+    return ("Cult");
+  }
+  if (role == "Cult Leader") {
+    return ("Cult");
+  }
+  if (role == "Invoker") {
+    return ("Cult");
+  }
+  if (role == "Ritualist") {
+    return ("Cult");
+  }
+  if (role == "Seeker") {
+    return ("Cult");
+  }
+
+  if (role == "Master") {
+    return ("Vampire");
+  }
+  if (role == "Count") {
+    return ("Vampire");
+  }
+  if (role == "Vampire") {
+    return ("Vampire");
+  }
+
+  if (role == "Alchemist") {
+    return ("Neutral");
+  }
+  if (role == "Bandit") {
+    return ("Neutral");
+  }
+  if (role == "Fool") {
+    return ("Neutral");
+  }
+  if (role == "Inquisitor") {
+    return ("Neutral");
+  }
+  if (role == "Mercenary") {
+    return ("Neutral");
+  }
+  if (role == "Pretender") {
+    return ("Neutral");
+  }
+  if (role == "Sellsword") {
+    return ("Neutral");
+  }
+  if (role == "Scorned") {
+    return ("Neutral");
+  }
+  if (role == "Wanderer") {
+    return ("Neutral");
+  }
+
+  if (role == "Juggernaut") {
+    return ("Neutral Killer");
+  }
+  if (role == "Plaguebearer") {
+    return ("Neutral Killer");
+  }
+  if (role == "Possessor") {
+    return ("Neutral Killer");
+  }
+  if (role == "Reaper") {
+    return ("Neutral Killer");
+  }
+  if (role == "Sorcerer") {
+    return ("Neutral Killer");
+  }
+  if (role == "Voodoo Demon") {
+    return ("Neutral Killer");
+  }
+
+  return role;
+}
+
+bool isBlueDragon(string input) {
+  if (input.rfind("Good King", 0) == 0 || input.rfind("Good Queen", 0) == 0 ||
+      input.rfind("Astromancer", 0) == 0 || input.rfind("Barkeep", 0) == 0 ||
+      input.rfind("Blacksmith", 0) == 0 || input.rfind("Butler", 0) == 0 ||
+      input.rfind("Chronomancer", 0) == 0 ||
+      input.rfind("Court Wizard", 0) == 0 || input.rfind("Druid", 0) == 0 ||
+      input.rfind("Drunk", 0) == 0 || input.rfind("Hunter", 0) == 0 ||
+      input.rfind("Knight", 0) == 0 || input.rfind("Maid", 0) == 0 ||
+      input.rfind("Mason", 0) == 0 || input.rfind("Mystic", 0) == 0 ||
+      input.rfind("Noble", 0) == 0 || input.rfind("Observer", 0) == 0 ||
+      input.rfind("Paladin", 0) == 0 || input.rfind("Physician", 0) == 0 ||
+      input.rfind("Priest", 0) == 0 || input.rfind("Prince", 0) == 0 ||
+      input.rfind("Princess", 0) == 0 || input.rfind("Psychic", 0) == 0 ||
+      input.rfind("Sheriff", 0) == 0 || input.rfind("Spy", 0) == 0) {
+    return true;
+  } else
+    return false;
+}
+
+bool isUnseen(string input) {
+  if (input.rfind("Unseen King", 0) == 0 ||
+      input.rfind("Unseen Queen", 0) == 0 || input.rfind("Alcoholic", 0) == 0 ||
+      input.rfind("Aristocrat", 0) == 0 || input.rfind("Ambusher", 0) == 0 ||
+      input.rfind("Assassin", 0) == 0 || input.rfind("Barmaid", 0) == 0 ||
+      input.rfind("Bishop", 0) == 0 || input.rfind("Duchess", 0) == 0 ||
+      input.rfind("Enforcer", 0) == 0 || input.rfind("Handmaiden", 0) == 0 ||
+      input.rfind("Herbalist", 0) == 0 || input.rfind("Illusionist", 0) == 0 ||
+      input.rfind("Mastermind", 0) == 0 || input.rfind("Marshal", 0) == 0 ||
+      input.rfind("Medium", 0) == 0 || input.rfind("Nightwatch", 0) == 0 ||
+      input.rfind("Poacher", 0) == 0 || input.rfind("Sage", 0) == 0 ||
+      input.rfind("Trapper", 0) == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool isCult(string input) {
+  if (input.rfind("Cult King", 0) == 0 || input.rfind("Cult Queen", 0) == 0 ||
+      input.rfind("Cult Leader", 0) == 0 || input.rfind("Seeker", 0) == 0 ||
+      input.rfind("Apostle", 0) == 0 || input.rfind("Invoker", 0) == 0 ||
+      input.rfind("Ritualist", 0) == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool isVampire(string input) {
+  if (input.rfind("Vampire King", 0) == 0 ||
+      input.rfind("Vampire Queen", 0) == 0 ||
+      (input.rfind("Master", 0) == 0 && input.rfind("Mastermind", 0) != 0) ||
+      input.rfind("Vampire", 0) == 0 || input.rfind("Count", 0) == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool isInfiltration(string input) {
+  if (input.rfind("Denwir King", 0) == 0 ||
+      input.rfind("Denwir Queen", 0) == 0 || input.rfind("Captain", 0) == 0 ||
+      input.rfind("Brute", 0) == 0 || input.rfind("Diplomat", 0) == 0 ||
+      input.rfind("Emissary", 0) == 0 || input.rfind("Grave Digger", 0) == 0 ||
+      input.rfind("Hitman", 0) == 0 || input.rfind("Mage", 0) == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool isNeutral(string input) {
+  if (input.rfind("Psycho King", 0) == 0 ||
+      input.rfind("Psycho Queen", 0) == 0 ||
+      input.rfind("Neutral King", 0) == 0 ||
+      input.rfind("Neutral Queen", 0) == 0 ||
+      input.rfind("Juggernaut", 0) == 0 ||
+      input.rfind("Plaguebearer", 0) == 0 || input.rfind("Possessor", 0) == 0 ||
+      input.rfind("Reaper", 0) == 0 || input.rfind("Sorcerer", 0) == 0 ||
+      input.rfind("Voodoo Demon", 0) == 0 ||
+      input.rfind("Doomsday Harbinger", 0) == 0 ||
+      input.rfind("Storm Elemental", 0) == 0 ||
+      input.rfind("Alchemist", 0) == 0 || input.rfind("Bandit", 0) == 0 ||
+      input.rfind("Fool", 0) == 0 || input.rfind("Guardian Angel", 0) == 0 ||
+      input.rfind("Inquisitor", 0) == 0 || input.rfind("Mercenary", 0) == 0 ||
+      input.rfind("Pretender", 0) == 0 || input.rfind("Scorned", 0) == 0 ||
+      input.rfind("Sellsword", 0) == 0 || input.rfind("Wanderer", 0) == 0 ||
+      input.rfind("Witch & Cat", 0) == 0 ||
+      input.rfind("Necromancer", 0) == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+void printColorCode(string inputString, string redCode, string blueCode,
+                    string greenCode, string magentaCode,
+                    string brightMagentaCode, string whiteCode) {
+  if (isBlueDragon(inputString)) {
+    cout << blueCode;
+  }
+  if (isCult(inputString)) {
+    cout << redCode;
+  }
+  if (isUnseen(inputString)) {
+    cout << magentaCode;
+  }
+  if (isVampire(inputString)) {
+    cout << brightMagentaCode;
+  }
+  if (isInfiltration(inputString)) {
+    cout << greenCode;
+  }
+  if (isNeutral(inputString)) {
+    cout << whiteCode;
+  }
+}
+
+int main() {
+  // system("Color 7C");
+  srand(time(NULL));
+  bool GCUSWITCH = false;
+  bool debugMode = true;
+
+  string redCode = "\033[31m";
+  string blueCode = "\033[34m";
+  string greenCode = "\033[32m";
+  string magentaCode = "\033[35m";
+  string brightMagentaCode = "\033[30m";
+  string whiteCode = "\033[0m";
+
+  int numberOfPlayers = -1;
+  int maxNonUnique = 3;
+  string gameMode = "nothing";
+
+  while (numberOfPlayers == -1) {
+    cout << "Enter the number of players in the game!" << endl;
+    cout << "NOTE: PLAYABLE maximum is 79 players." << endl;
+
+    string numString;
+    cin >> numString;
+
+    numberOfPlayers = stoi(numString);
+    // cout << numberOfPlayers << endl;
+
+    if (numberOfPlayers < 8 || numberOfPlayers > 999) {
+      numberOfPlayers = -1;
+      cout << endl;
+      cout << "Invalid entry. Can only make rolelists of 8-999 players" << endl;
+      cout << endl;
+    } else if (numberOfPlayers > 100) {
+      cout << endl;
+      cout << "You psychopath." << endl;
+      cout << endl;
+    } else if (numberOfPlayers == 69) {
+      cout << endl;
+      cout << "Nice." << endl;
+      cout << endl;
+    }
+  }
+  /*
+    while (gameMode == "nothing"){
+        cout << "Please select a game mode:" << endl;
+
+        cout << "1) Standard" << endl;
+        cout << "2) Lovers" << endl;
+        cout << "3) All Any" << endl;
+
+        int optionSelected;
+        string numString;
+        cin >> numString;
+
+        optionSelected = stoi(numString);
+
+        if (numberOfPlayers < 8 || numberOfPlayers > 63){
+          numberOfPlayers = -1;
+          cout << endl;
+          cout << "Invalid entry. Can only make rolelists of 8-63 players" <<
+    endl; cout << endl;
+        }
+      }
+  */
+
+  int numberOfBDInvestigatives;
+  int numberOfBD;
+  int numberOfEvils;
+  int numberOfOtherNeutrals;
+  int numberOfRolesGenerated = 0;
+  int numberOfNeutralKillers = countNeutralKillers(numberOfPlayers);
+
+  numberOfBDInvestigatives = countInvestigatives(numberOfPlayers);
+  numberOfOtherNeutrals = countNeutrals(numberOfPlayers);
+  numberOfBD = countBD(numberOfPlayers);
+  numberOfEvils = countEvils(numberOfPlayers);
+
+  int numberOfEvilFactions = -1;
+  int maxFactions = numberOfEvils;
+
+  if (maxFactions > 4) {
+    maxFactions = 4;
+  }
+  while (numberOfEvilFactions == -1) {
+
+    cout << "Enter the number of evil factions in the game!" << endl;
+
+    string numString;
+    cin >> numString;
+
+    numberOfEvilFactions = stoi(numString);
+    if (numberOfEvilFactions < 1 || numberOfEvilFactions > maxFactions) {
+      numberOfEvilFactions = -1;
+      cout << endl;
+      cout << "Invalid entry. Can only make rolelists with 1-" << maxFactions
+           << " evil factions with the number of players you have." << endl;
+      cout << endl;
+    }
+  }
+
+  // cout << "Initializing variables..." << endl;
+  string roles[numberOfPlayers];
+  string players[numberOfPlayers];
+  string neutralKillerList[numberOfPlayers];
+
+  int unseenActive = 0; // , UV, , , CI,  -- Missing?
+  int cultActive = 0;
+  int vampiresActive = 0;
+  int infiltrationActive = 0;
+
+  int randomNumber;
+
+  if (numberOfEvilFactions != 2)
+    randomNumber = rand() % 100;
+  else
+    randomNumber = rand() % 150;
+
+  if (randomNumber < 25) {
+    if (numberOfEvilFactions == 1) {
+      unseenActive = 1;
+    } else if (numberOfEvilFactions == 2) {
+      cultActive = 1;
+      vampiresActive = 1;
+    } else if (numberOfEvilFactions == 3) {
+      cultActive = 1;
+      vampiresActive = 1;
+      infiltrationActive = 1;
+    } else if (numberOfEvilFactions == 4) {
+      unseenActive = 1;
+      cultActive = 1;
+      vampiresActive = 1;
+      infiltrationActive = 1;
+    }
+  } else if (randomNumber < 50) {
+    if (numberOfEvilFactions == 1) {
+      cultActive = 1;
+    } else if (numberOfEvilFactions == 2) {
+      vampiresActive = 1;
+      infiltrationActive = 1;
+    } else if (numberOfEvilFactions == 3) {
+      unseenActive = 1;
+      vampiresActive = 1;
+      infiltrationActive = 1;
+    } else if (numberOfEvilFactions == 4) {
+      unseenActive = 1;
+      cultActive = 1;
+      vampiresActive = 1;
+      infiltrationActive = 1;
+    }
+  } else if (randomNumber < 75) {
+    if (numberOfEvilFactions == 1) {
+      vampiresActive = 1;
+    } else if (numberOfEvilFactions == 2) {
+      unseenActive = 1;
+      infiltrationActive = 1;
+    } else if (numberOfEvilFactions == 3) {
+      unseenActive = 1;
+      cultActive = 1;
+      infiltrationActive = 1;
+    } else if (numberOfEvilFactions == 4) {
+      unseenActive = 1;
+      cultActive = 1;
+      vampiresActive = 1;
+      infiltrationActive = 1;
+    }
+  } else if (randomNumber < 100) {
+    if (numberOfEvilFactions == 1) {
+      infiltrationActive = 1;
+    } else if (numberOfEvilFactions == 2) {
+      unseenActive = 1;
+      cultActive = 1;
+    } else if (numberOfEvilFactions == 3) {
+      unseenActive = 1;
+      cultActive = 1;
+      vampiresActive = 1;
+    } else if (numberOfEvilFactions == 4) {
+      unseenActive = 1;
+      cultActive = 1;
+      vampiresActive = 1;
+      infiltrationActive = 1;
+    }
+  } else if (randomNumber < 125) {
+    unseenActive = 1;
+    vampiresActive = 1;
+  } else if (randomNumber < 150) {
+    cultActive = 1;
+    infiltrationActive = 1;
+  }
+
+  for (int i = 0; i < numberOfPlayers; i++) {
+    neutralKillerList[i] = "nada";
+  }
+
+  string input = "nothing";
+
+  while (input == "nothing") {
+    cout << "Generate Role List, Player List, Both, or Faction List? (A, B, C, "
+            "or D):"
+         << endl;
+    cout << "Notice: Choosing B or C will prompt you to enter the names of "
+            "each player."
+         << endl;
+    cin >> input;
+    if (input != "A" && input != "a" && input != "B" && input != "b" &&
+        input != "C" && input != "c" && input != "D" && input != "d") {
+      cout << "Invalid input. Enter A, B, C, or D (or a, b, c, or d)" << endl;
+      input = "nothing";
+    }
+  }
+
+  if (input == "B" || input == "b" || input == "C" || input == "c") {
+    for (int i = 0; i < numberOfPlayers; i++) {
+      cout << "Enter player " << i + 1 << endl;
+      cin >> players[i];
+      cout << endl;
+    }
+    system("clear");
+  }
+
+  string newInput = "nothing";
+
+  while (newInput == "nothing") {
+    cout << "Would you like to use the Lopes Of Lies variant? Y/N" << endl;
+    cin >> newInput;
+    if (newInput == "Y" || newInput == "y") {
+      GCUSWITCH = true;
+      cout << "Converting to GCU Roles..." << endl;
+      newInput = "something";
+    } else if (newInput == "N" || newInput == "n") {
+      cout << endl;
+      cout << "Understood. Proceeding..." << endl;
+      cout << endl;
+      newInput = "something";
+    } else {
+      cout << endl;
+      cout << "Invalid input. Press Y or N!" << endl;
+      newInput = "nothing";
+      cout << endl;
+    }
+  }
+
+  /*for (int i = 0; i < numberOfPlayers; i++){
+    roles[i] = "(empty)";
+  }*/
+  // cout << "DEBUG: numberOfRolesGenerated = " << numberOfRolesGenerated <<
+  // endl; cout << "DEBUG: Unseen Active: " << unseenActive << endl; cout <<
+  // "DEBUG: Cult Active: " << cultActive << endl; cout << "DEBUG: Vampires
+  // Active: " << vampiresActive << endl; cout << "DEBUG: Infiltration Active: "
+  // << infiltrationActive << endl;
+
+  roles[numberOfRolesGenerated] =
+      generateKing(unseenActive, cultActive, vampiresActive, infiltrationActive,
+                   numberOfPlayers);
+  // cout << roles[0] << endl;
+  numberOfRolesGenerated++;
+  // cout << "DEBUG: numberOfRolesGenerated = " << numberOfRolesGenerated <<
+  // endl; cout << "DEBUG: Generated King: " << roles[numberOfRolesGenerated -
+  // 1]
+  //<< endl;
+
+  roles[numberOfRolesGenerated] =
+      generateQueen(unseenActive, cultActive, vampiresActive,
+                    infiltrationActive, numberOfPlayers);
+  numberOfRolesGenerated++;
+  // cout << "DEBUG: numberOfRolesGenerated = " << numberOfRolesGenerated <<
+  // endl; cout << "DEBUG: Generated Queen: " << roles[numberOfRolesGenerated -
+  // 1]
+  //<< endl;
+
+  int numberOfPsychos = 0;
+  int numberOfNeutralRoyalty = 0;
+  for (int i = 0; i < 2; i++) {
+    if (roles[i] == "Psycho King" || roles[i] == "Psycho Queen") {
+      numberOfPsychos++;
+    }
+    if (roles[i] == "Neutral King" || roles[i] == "Neutral Queen") {
+      numberOfNeutralRoyalty++;
+    }
+  }
+
+  if (numberOfPsychos == 1) {
+    numberOfNeutralKillers--;
+    numberOfBD++;
+    // cout << "DEBUG: One Psycho generated. -1 NKs, +1 BD." << endl;
+  }
+  if (numberOfPsychos == 2) {
+    if (numberOfNeutralKillers == 1) {
+      numberOfNeutralKillers--;
+      numberOfOtherNeutrals--;
+      // cout << "DEBUG: Two Psychos generated. -1 NK, -1 Other Neutral, +2 BD."
+      //<< endl;
+    } else {
+      numberOfNeutralKillers -= 2;
+      // cout << "DEBUG: Two Psychos generated. -2 NKs, +2 BD." << endl;
+    }
+    numberOfBD += 2;
+  }
+  if (numberOfNeutralRoyalty == 2) {
+    // cout << "DEBUG: Two Neutral Royalty generated. -1 Other Neutral, +1 BD. "
+    //<< endl;
+    numberOfOtherNeutrals--;
+    numberOfBD++;
+  }
+
+  if (numberOfPlayers >= 10) {
+    int randomInt = rand() % 3;
+    if (randomInt == 0) {
+      roles[numberOfRolesGenerated] = "Prince";
+    } else if (randomInt == 1) {
+      roles[numberOfRolesGenerated] = "Astromancer";
+    } else if (randomInt == 2) {
+      roles[numberOfRolesGenerated] = "Druid";
+    }
+
+    numberOfRolesGenerated++;
+    // cout << "DEBUG: numberOfRolesGenerated = " << numberOfRolesGenerated
+    //<< endl;
+  } else {
+    // cout << "DEBUG: Did not generate Prince. Less than 10 players." << endl;
+  }
+
+  // cout << roles[0] << endl;
+
+  //---------------------------------------SHUFFLE THE LIST----------------------------------\\
+
+  for (int i = 0; i < numberOfPlayers; i++) { // Nice
+    // cout << "Loop " << i <<": roles[0] = " << roles[0] << endl;
+    int randomInteger1 = i;
+    int randomInteger2 = rand() % (numberOfPlayers - i) + i;
+    if (randomInteger1 != randomInteger2) {
+      string blankString = players[randomInteger1];
+      players[randomInteger1] = players[randomInteger2];
+      players[randomInteger2] = blankString;
+      // cout << "DEBUG: Switched position " << randomInteger1 << " and "
+      //<< randomInteger2 << endl;
+    }
+  }
+
+  // cout << roles[0] << endl;
+  // cout << "DEBUG: Shuffled players randomly." << endl;
+
+  // cout << "DEBUG: " << numberOfBDInvestigatives << " " <<
+  // numberOfOtherNeutrals
+  //<< " " << numberOfBD << " " << numberOfEvils << endl;
+
+  int randomInteger;
+  string bonusRole = "";
+
+  if (numberOfBDInvestigatives != -1)
+    randomInteger =
+        rand() % 20; // BD Counters cannot receive a bonus role anymore lmao
+  else
+    randomInteger = rand() % 20;
+  // cout << "Generated random integer " << randomInteger << "." << endl;
+
+  // cout << "numberOfRolesGenerated = " << numberOfRolesGenerated << endl;
+
+  if (randomInteger >= 20) {
+    bonusRole = "BD Investigative";
+    numberOfBDInvestigatives++;
+    // cout << "DEBUG: " << bonusRole << "++" << endl;
+  } else if (randomInteger >= 10) {
+    bonusRole = "Blue Dragon";
+    numberOfBD++;
+    // cout << "DEBUG: " << bonusRole << "++" << endl;
+  } else {
+    bonusRole = "Other Neutral";
+    numberOfOtherNeutrals++;
+    // cout << "DEBUG: " << bonusRole << "++" << endl;
+  }
+
+  cout << endl;
+  // cout << "DEBUG: Number of BD Investigatives: " << numberOfBDInvestigatives
+  //<< endl;
+  // cout << "DEBUG: Number of Blue Dragon: " << numberOfBD << endl;
+  // cout << "DEBUG: Number of Evils: " << numberOfEvils << endl;
+  // cout << "DEBUG: Number of Neutral Killers: " << numberOfNeutralKillers
+  //<< endl;
+  // cout << "DEBUG: Number of Other Neutrals: " << numberOfOtherNeutrals <<
+  // endl;
+  cout << endl;
+
+  // cout << "numberOfRolesGenerated = " << numberOfRolesGenerated << endl;
+  // cout << roles[0] << endl;
+  if (numberOfBDInvestigatives > 0) {
+    // cout << "Generating BD Investigatives..." << endl;
+    for (int i = 0; i < numberOfBDInvestigatives; i++) {
+      roles[numberOfRolesGenerated] = generateBDInvestigative(
+          unseenActive, cultActive, vampiresActive, infiltrationActive);
+      // cout << "DEBUG: Generated " << roles[numberOfRolesGenerated] << endl;
+      numberOfRolesGenerated++;
+    }
+  } else {
+    // cout << "DEBUG: No BD Investigatives to be generated. Moving on... "
+    //<< endl;
+  }
+
+  // cout << roles[0] << endl;
+
+  //===============================BLUE DRAGON GENERATION=================================\\
+
+  int failCount = 0;
+  for (int i = 0; i < numberOfBD; i++) {
+    bool unique = true;
+    while (unique == true) {
+      roles[numberOfRolesGenerated] = chooseRandomBlueDragonClass(
+          unseenActive, cultActive, vampiresActive, infiltrationActive);
+      // cout << "DEBUG: We're going to try to add "
+      //<< roles[numberOfRolesGenerated] << "." << endl;
+      int counter = 0;
+      for (int i = 0; i < numberOfRolesGenerated; i++) {
+        if (roles[i] == roles[numberOfRolesGenerated]) {
+          counter++;
+        }
+      }
+      if (counter >= maxNonUnique) {
+        unique = true;
+        failCount++;
+        if (failCount >= 100) {
+          unique = false;
+          roles[numberOfRolesGenerated] = "Extra Blue Dragon";
+        }
+        // cout << "DEBUG: Error: Too many!" << endl;
+      } else if (counter >= 1) {
+        if (roles[numberOfRolesGenerated] == "Hunter" ||
+            roles[numberOfRolesGenerated] == "Mystic" ||
+            roles[numberOfRolesGenerated] == "Prince" ||
+            roles[numberOfRolesGenerated] == "Astromancer" ||
+            roles[numberOfRolesGenerated] == "Druid") {
+          unique = true;
+          // cout << "DEBUG: Error: Role already exists!" << endl;
+          failCount++;
+          if (failCount >= 100) {
+            unique = false;
+            roles[numberOfRolesGenerated] = "Extra Blue Dragon";
+          }
+        } else
+          unique = false;
+      } else {
+        unique = false;
+      }
+
+      if (i == numberOfBD -
+                   (2 + cultActive + vampiresActive + infiltrationActive) &&
+          unseenActive == 1) {
+        bool sheriffSpawned = false;
+        for (int j = 0; j < numberOfRolesGenerated; j++) {
+          if (roles[j] == "Sheriff") {
+            sheriffSpawned = true;
+          }
+        }
+        if (sheriffSpawned == false) {
+          roles[numberOfRolesGenerated] = "Sheriff";
+        }
+      }
+      if (i == numberOfBD - (2 + vampiresActive + infiltrationActive) &&
+          cultActive == 1) {
+        bool paladinSpawned = false;
+        for (int j = 0; j < numberOfRolesGenerated; j++) {
+          if (roles[j] == "Paladin") {
+            paladinSpawned = true;
+          }
+        }
+        if (paladinSpawned == false) {
+          roles[numberOfRolesGenerated] = "Paladin";
+        }
+      }
+      if (i == numberOfBD - (2 + infiltrationActive) && vampiresActive == 1) {
+        bool priestSpawned = false;
+        for (int j = 0; j < numberOfRolesGenerated; j++) {
+          if (roles[j] == "Priest") {
+            priestSpawned = true;
+          }
+        }
+        if (priestSpawned == false) {
+          roles[numberOfRolesGenerated] = "Priest";
+        }
+      }
+      if (i == numberOfBD - 2 && infiltrationActive == 1) {
+        bool spySpawned = false;
+        for (int j = 0; j < numberOfRolesGenerated; j++) {
+          if (roles[j] == "Spy") {
+            spySpawned = true;
+          }
+        }
+        if (spySpawned == false) {
+          roles[numberOfRolesGenerated] = "Spy";
+        }
+      }
+      if (i == numberOfBD - 1) {
+        bool BDSupportSpawned = false;
+        for (int j = 0; j < numberOfRolesGenerated; j++) {
+          if (roles[j] == "Court Wizard" || roles[j] == "Chronomancer" ||
+              roles[j] == "Physician") {
+            BDSupportSpawned = true;
+          }
+        }
+        if (BDSupportSpawned == false) {
+          // cout << "DEBUG: No BD Support spawned, so we're adding one
+          // manually!";
+          int randomInteger = rand() % 4;
+          if (randomInteger == 0) {
+            roles[numberOfRolesGenerated] = "Chronomancer";
+            // cout << "DEBUG: Adding a Chronomancer." << endl;
+          }
+          if (randomInteger == 1) {
+            roles[numberOfRolesGenerated] = "Court Wizard";
+            // cout << "DEBUG: Adding a Court Wizard." << endl;
+          }
+          if (randomInteger == 2) {
+            roles[numberOfRolesGenerated] = "Physician";
+            // cout << "DEBUG: Adding a Physician." << endl;
+          }
+          if (randomInteger == 3) {
+            roles[numberOfRolesGenerated] = "Blacksmith";
+            // cout << "DEBUG: Adding a Blacksmith." << endl;
+          }
+        }
+      }
+    }
+    // cout << "DEBUG: Generated " << roles[numberOfRolesGenerated] << endl;
+    numberOfRolesGenerated++;
+  }
+
+  // cout << "numberOfRolesGenerated = " << numberOfRolesGenerated << endl;
+
+  // cout << roles[0] << endl;
+
+  // roles[numberOfRolesGenerated] = generateNeutralKiller();
+
+  // cout << "DEBUG: Generating evil roles..." << endl;
+
+  int unseenCount = countUnseen(unseenActive, cultActive, vampiresActive,
+                                infiltrationActive, numberOfEvils);
+  // cout << "DEBUG: Unseen Count = " << unseenCount << endl;
+  int cultCount = countCult(unseenActive, cultActive, vampiresActive,
+                            infiltrationActive, numberOfEvils);
+  // cout << "DEBUG: Cult Count = " << cultCount << endl;
+  int vampireCount = countVampires(unseenActive, cultActive, vampiresActive,
+                                   infiltrationActive, numberOfEvils);
+  // cout << "DEBUG: Vampire Count = " << vampireCount << endl;
+  int infiltrationCount =
+      countInfiltration(unseenActive, cultActive, vampiresActive,
+                        infiltrationActive, numberOfEvils);
+  // cout << "DEBUG: Infiltration Count = " << infiltrationCount << endl;
+
+  //===========================================UNSEEN
+  // GENERATION=========================================
+  failCount = 0;
+
+  for (int i = 0; i < unseenCount; i++) {
+    // cout << "DEBUG: Begin generating an evil role." << endl;
+    // cout << "DEBUG: Unseen game loop!" << endl;
+    if (i < 2) {
+      // cout << "DEBUG: Unseen loop; not the last loop." << endl;
+      roles[numberOfRolesGenerated] =
+          generateEvilMember(i + 1, unseenActive, cultActive, vampiresActive,
+                             infiltrationActive, numberOfPlayers, "Unseen");
+      // cout << "DEBUG: Exit generateEvilMember" << endl;
+      // cout << "DEBUG: Generated " << roles[numberOfRolesGenerated] << endl;
+      numberOfRolesGenerated++;
+      // cout << "DEBUG: Added 1 to numberOfRolesGenerated" << endl;
+      // cout << "DEBUG: numberOfRolesGenerated = " << numberOfRolesGenerated
+      //<< endl;
+    } else if (i >= 2) {
+      // cout << "DEBUG: Unseen loop;Last loop!" << endl;
+      bool unique = true;
+
+      while (unique == true) {
+        roles[numberOfRolesGenerated] =
+            generateEvilMember(i + 1, unseenActive, cultActive, vampiresActive,
+                               infiltrationActive, numberOfPlayers, "Unseen");
+        // cout << "DEBUG: Generated Evil member returned "
+        //<< roles[numberOfRolesGenerated] << endl;
+        int counter = 0;
+        for (int j = 0; j < numberOfRolesGenerated; j++) {
+          if (roles[j] == roles[numberOfRolesGenerated]) {
+            counter++;
+          }
+        }
+        if (counter >= maxNonUnique) {
+          unique = true;
+          failCount++;
+
+          if (failCount >= 100) {
+            unique = false;
+            failCount = 0;
+            roles[numberOfRolesGenerated] = "Extra Unseen";
+          }
+        } else if (counter >= 1) {
+          if (roles[numberOfRolesGenerated] == "Poacher" ||
+              roles[numberOfRolesGenerated] == "Illusionist") {
+            unique = true;
+            // cout << "DEBUG: Failed to generate a new Unseen role. Trying "
+            //  "again..."
+            // << endl;
+            failCount++;
+
+            if (failCount >= 100) {
+              unique = false;
+              failCount = 0;
+              roles[numberOfRolesGenerated] = "Extra Unseen";
+              // cout << "DEBUG: Failed too many times to generate an Unseen "
+              //"member, so we added Extra Unseen."
+              // << endl;
+            }
+          } else
+            unique = false;
+        } else { // counter == 0
+          unique = false;
+        }
+      }
+
+      numberOfRolesGenerated++;
+      // cout << "DEBUG: numberOfRolesGenerated = " << numberOfRolesGenerated
+      //  << endl;
+    }
+  }
+
+  //=============================================CULT
+  // GENERATION====================================
+  // cout << "DEBUG: Unseen generation complete" << endl;
+  failCount = 0;
+  for (int i = 0; i < cultCount; i++) {
+    bool unique = true;
+    while (unique == true) {
+      int counter = 0;
+      roles[numberOfRolesGenerated] =
+          generateEvilMember(i + 1, unseenActive, cultActive, vampiresActive,
+                             infiltrationActive, numberOfPlayers, "Cult");
+
+      // cout << "DEBUG: Generated Evil member: " <<
+      // roles[numberOfRolesGenerated] << endl;
+
+      for (int j = 0; j < numberOfRolesGenerated; j++) {
+        if (roles[j] == roles[numberOfRolesGenerated]) {
+          counter++;
+        }
+      }
+      if (counter >= maxNonUnique) {
+        unique = true;
+
+        failCount++;
+        // cout << "DEBUG: Failed to generate a Cult member. Trying again..."
+        //<< endl;
+
+        if (failCount >= 10) {
+          unique = false;
+          failCount = 0;
+          roles[numberOfRolesGenerated] = "Extra Cult";
+          // cout << "DEBUG: Failed too many times to generate a Cult member. "
+          //"Added Extra Cult." << endl;
+        }
+      } else
+        unique = false;
+    }
+    numberOfRolesGenerated++;
+  }
+  // cout << "DEBUG: Cult generation complete" << endl;
+  for (int i = 0; i < vampireCount; i++) {
+    bool unique = true;
+    while (unique == true) {
+      int counter = 0;
+      roles[numberOfRolesGenerated] =
+          generateEvilMember(i + 1, unseenActive, cultActive, vampiresActive,
+                             infiltrationActive, numberOfPlayers, "Vampires");
+
+      // cout << "DEBUG: Added Evil member: " << roles[numberOfRolesGenerated]
+      //<< endl;
+      for (int j = 0; j < numberOfRolesGenerated; j++) {
+        if (roles[j] == roles[numberOfRolesGenerated] &&
+            roles[j] != "Vampire") {
+          counter++;
+        }
+      }
+      if (counter >= maxNonUnique) {
+        unique = true;
+      } else
+        unique = false;
+    }
+    numberOfRolesGenerated++;
+  }
+
+  //===========================================INFILTRATION
+  // GENERATION=====================================
+  for (int i = 0; i < infiltrationCount; i++) {
+    bool unique = true;
+    while (unique == true) {
+      int counter = 0;
+      roles[numberOfRolesGenerated] = generateEvilMember(
+          i + 1, unseenActive, cultActive, vampiresActive, infiltrationActive,
+          numberOfPlayers, "Infiltration");
+
+      // cout << roles[numberOfRolesGenerated] << endl;
+      for (int j = 0; j < numberOfRolesGenerated; j++) {
+        if (roles[j] == roles[numberOfRolesGenerated]) {
+          counter++;
+        }
+      }
+      if (counter >= maxNonUnique) {
+        unique = true;
+        failCount++;
+        // cout << "DEBUG: Failed to generate an Infiltrator. Trying again..."
+        //<< endl;
+
+        if (failCount >= 10) {
+          unique = false;
+          failCount = 0;
+          roles[numberOfRolesGenerated] = "Extra Infiltrator";
+          // cout << "DEBUG: Failed too many times to generate an Infiltrator. "
+          //"Added Extra Infiltrator." << endl;
+        }
+      } else
+        unique = false;
+    }
+    numberOfRolesGenerated++;
+  }
+  // cout << "DEBUG: Vampire generation complete" << endl;
+  // cout << "Bottom of Loop" << endl;
+
+  // cout << roles[0] << endl;
+
+  // cout << "DEBUG: Generating Neutral Killers..." << endl;
+
+  int generated = 0;
+  failCount = 0;
+
+  while (generated < numberOfNeutralKillers) {
+    string newKiller = "nothing";
+    while (newKiller == "nothing") {
+      bool unique = false;
+      newKiller = chooseRandomNeutralKiller();
+      // cout << "DEBUG: " << newKiller << " was generated. Will we add it?"
+      //<< endl;
+      for (int i = 0; i < generated; i++) {
+        if (newKiller == neutralKillerList[i]) {
+          unique = true;
+          failCount++;
+          // cout << "DEBUG: Failed to generate an NK. Trying again..." << endl;
+          if (failCount >= 100) {
+            unique = false;
+            failCount = 0;
+            // cout << "DEBUG: Failed too many times to generate an NK. Added "
+            //"Extra Neutral Killer." << endl;
+            roles[numberOfRolesGenerated] = "Extra Neutral Killer";
+          }
+        }
+      }
+      if (unique == true && failCount < 100) {
+        newKiller = "nothing";
+        failCount++;
+      } else {
+        roles[numberOfRolesGenerated] = newKiller;
+        numberOfRolesGenerated++;
+        neutralKillerList[generated] = newKiller;
+        generated++;
+      }
+    }
+  }
+
+  // cout << "DEBUG: number of roles generated: " << numberOfRolesGenerated
+  //<< endl;
+  // cout << "DEBUG: Done." << endl;
+
+  //============================NEUTRAL GENERATION========================
+  for (int i = 0; i < numberOfOtherNeutrals; i++) {
+    // cout << "DEBUG: Generating " << i + 1 << " of " << numberOfOtherNeutrals
+    //<< " Other Neutrals..." << endl;
+    bool unique = true;
+    while (unique == true) {
+      roles[numberOfRolesGenerated] = chooseRandomNeutralClass();
+      // cout << "DEBUG: Attempting to generate " <<
+      // roles[numberOfRolesGenerated]
+      //<< endl;
+      int counter = 0;
+
+      for (int i = 0; i < numberOfRolesGenerated; i++) {
+        if (roles[i] == roles[numberOfRolesGenerated]) {
+          counter++;
+        }
+      }
+      if (counter >= maxNonUnique) {
+        unique = true;
+        failCount++;
+        // cout << "DEBUG: Error: We already have 3 of these!" << endl;
+
+        if (failCount >= 100) {
+          unique = false;
+          failCount = 0;
+          roles[numberOfRolesGenerated] = "Extra Neutral";
+        }
+      } else if (counter >= 1) {
+        if (roles[numberOfRolesGenerated] == "Bandit" ||
+            roles[numberOfRolesGenerated] == "Scorned" ||
+            roles[numberOfRolesGenerated] == "Inquisitor" ||
+            roles[numberOfRolesGenerated] == "Mercenary" ||
+            roles[numberOfRolesGenerated] == "Sellsword" ||
+            roles[numberOfRolesGenerated] == "Guardian Angel" ||
+            roles[numberOfRolesGenerated] == "Necromancer" ||
+            roles[numberOfRolesGenerated] == "Witch & Cat") {
+          unique = true;
+
+          failCount++;
+          if (failCount >= 100) {
+            unique = false;
+            failCount = 0;
+            roles[numberOfRolesGenerated] = "Extra Neutral";
+          }
+          // cout << "DEBUG: Error: It's already in the list!" << endl;
+        } else {
+          unique = false;
+        }
+      } else {
+        unique = false;
+      }
+    }
+    numberOfRolesGenerated++;
+    // cout << "DEBUG: number of roles generated: " << numberOfRolesGenerated
+    //<< endl;
+  }
+
+  // cout << "DEBUG: All roles should be generated. numberOfRolesGenerated == "
+  //<< numberOfRolesGenerated << endl;
+  // cout << roles[0] << endl;
+  // cout << "DEBUG: Converting to GCU roles if necessary." << endl;
+  for (int i = 0; i < numberOfPlayers; i++) {
+
+    roles[i] = generateGCURole(roles[i], GCUSWITCH);
+  }
+  // cout << "DEBUG: Conversion check complete." << endl;
+
+  bool inquisitorGame = false;
+  for (int i = 0; i < numberOfPlayers; i++) {
+    if (roles[i] == "Inquisitor" || roles[i] == "Doctor McCarthy") {
+      inquisitorGame = true;
+    }
+  }
+
+  if (inquisitorGame == true) {
+    // cout << "DEBUG: Inquisitor game..." << endl;
+    int numberOfApplicableBD = 0;
+    int applicableBD[numberOfPlayers];
+    int heretic[3];
+    heretic[0] = -1;
+    heretic[1] = -1;
+    heretic[2] = -1;
+    int hereticsSelected = 0;
+    for (int i = 0; i < numberOfPlayers; i++) {
+      // cout << i << endl;
+      // cout << roles[i] << endl;
+      if (roles[i] == "Barkeep" || roles[i] == "Blacksmith" ||
+          roles[i] == "Butler" || roles[i] == "Chronomancer" ||
+          roles[i] == "Court Wizard" || roles[i] == "Drunk" ||
+          roles[i] == "Knight" || roles[i] == "Maid" || roles[i] == "Mystic" ||
+          roles[i] == "Mason" || roles[i] == "Noble" ||
+          roles[i] == "Observer" || roles[i] == "Paladin" ||
+          roles[i] == "Physician" || roles[i] == "Princess" ||
+          roles[i] == "Psychic" || roles[i] == "Sheriff" ||
+          roles[i] == "Priest" || roles[i] == "Spy" ||
+          roles[i] == "Average Swim Enjoyer" || roles[i] == "Business Major" ||
+          roles[i] == "Professor Who Pushes Back Assignments" ||
+          roles[i] == "Participation Points" || roles[i] == "Stampeder" ||
+          roles[i] == "Thunder" || roles[i] == "Gamer" ||
+          roles[i] == "Nursing Major" || roles[i] == "Biology Classmate" ||
+          roles[i] == "Welcome Crew" || roles[i] == "Perfect Student" ||
+          roles[i] == "Parking Pass" || roles[i] == "Super Target Employee" ||
+          roles[i] == "Janitor" || roles[i] == "Drake Anderson" ||
+          roles[i] == "Studious" || roles[i] == "Extra Blue Dragon") {
+        applicableBD[numberOfApplicableBD] = i;
+        // cout << "DEBUG: Applicable BD: Player " << i + 1 << endl;
+        numberOfApplicableBD++;
+        // cout << "DEBUG: Applicable BD found" << endl;
+      }
+    }
+
+    while (hereticsSelected < 3) {
+      int randomInt = -1;
+      bool escaped = false;
+      while (escaped == false) {
+        randomInt = rand() % numberOfApplicableBD;
+        escaped = true;
+        for (int k = 0; k < 3; k++) {
+          if (randomInt == heretic[k]) {
+            escaped = false;
+          }
+        }
+      }
+
+      if (GCUSWITCH == true) {
+        // cout << "DEBUG: Generating Physics Student" << endl;
+        roles[applicableBD[randomInt]] =
+            roles[applicableBD[randomInt]] + " (Physics Student)";
+      } else {
+        // cout << "DEBUG: Generating Heretic" << endl;
+        roles[applicableBD[randomInt]] =
+            roles[applicableBD[randomInt]] + " (Heretic)";
+      }
+      // cout << "DEBUG: Generated Heretic." << endl;
+      heretic[hereticsSelected] = randomInt;
+      hereticsSelected++;
+    }
+  }
+
+  bool guardianAngelGame = false;
+  int gaNumber;
+  int gaTargetPlayer;
+  for (int i = 0; i < numberOfPlayers; i++) {
+    // cout << "DEBUG: " << i << " = " << roles[i] << endl;
+    if (roles[i] == "Guardian Angel" || roles[i] == "Math Tutor") {
+      // cout << "DEBUG: Guardian Angel game!" << endl;
+      guardianAngelGame = true;
+      gaNumber = i;
+      gaTargetPlayer = i;
+    }
+  }
+  if (guardianAngelGame == true) {
+    while (gaTargetPlayer == gaNumber || gaTargetPlayer <= 1 ||
+           roles[gaTargetPlayer] == "Fool" ||
+           roles[gaTargetPlayer] == "Scorned") {
+      gaTargetPlayer = rand() % numberOfPlayers;
+    }
+    if (GCUSWITCH) {
+      roles[gaTargetPlayer] = roles[gaTargetPlayer] + " (Math Tutor's Target)";
+    } else
+      roles[gaTargetPlayer] =
+          roles[gaTargetPlayer] + " (Guardian Angel's Target)";
+  }
+
+  bool maidGame = false;
+  int numberOfMaids = 0;
+  int maidID[numberOfPlayers]; // Just so we can compensate for any number of
+                               // Maids
+  for (int i = 0; i < numberOfPlayers; i++) {
+    if (roles[i] == "Maid" || roles[i] == "Gamer") {
+      maidGame = true;
+      maidID[numberOfMaids] = i;
+      numberOfMaids++;
+    }
+  }
+
+  if (maidGame == true) {
+    int maidTarget[numberOfMaids];
+    int numberOfMaidTargetsFound = 0;
+    while (numberOfMaidTargetsFound < numberOfMaids) {
+      int randomInt = rand() % numberOfPlayers;
+      if (!(roles[randomInt] == "Good King" ||
+            roles[randomInt] == "Good Queen" ||
+            roles[randomInt] == "Unseen King" ||
+            roles[randomInt] == "Unseen Queen" ||
+            roles[randomInt] == "Cult King" ||
+            roles[randomInt] == "Cult Queen" ||
+            roles[randomInt] == "Vampire King" ||
+            roles[randomInt] == "Vampire Queen" ||
+            roles[randomInt] == "Denwir King" ||
+            roles[randomInt] == "Denwir Queen" ||
+            roles[randomInt] == "Neutral King" ||
+            roles[randomInt] == "Neutral Queen" ||
+            roles[randomInt] == "Psycho King" ||
+            roles[randomInt] == "Psycho Queen" ||
+            randomInt == maidID[numberOfMaidTargetsFound])) {
+        maidTarget[numberOfMaidTargetsFound] = randomInt;
+        numberOfMaidTargetsFound++;
+      }
+    }
+
+    for (int i = 0; i < numberOfMaids; i++) {
+      roles[maidTarget[i]] = roles[maidTarget[i]] +
+                             " (Last-checked of player " +
+                             to_string(maidID[i] + 1) + ")";
+    }
+  }
+
+  bool plaguebearerGame = false;
+  int pbID = -1;
+  int playersToInfect = round(numberOfPlayers / 10); // numberOfPlayers - 1;
+  int numberOfInfected = 0;
+  int infected[playersToInfect];
+
+  for (int i = 0; i < numberOfPlayers; i++) {
+    if (roles[i] == "Plaguebearer" || roles[i] == "COVID-19") {
+      plaguebearerGame = true;
+      pbID = i;
+    }
+  }
+
+  if (plaguebearerGame) {
+
+    while (numberOfInfected < playersToInfect) {
+      int randomPlayer = rand() % numberOfPlayers;
+      if (randomPlayer != pbID) {
+        bool alreadyInfected = false;
+        for (int i = 0; i < numberOfInfected; i++) {
+          if (infected[i] == randomPlayer) {
+            alreadyInfected = true;
+          }
+        }
+        if (alreadyInfected == false) {
+          infected[numberOfInfected] = randomPlayer;
+          numberOfInfected++;
+        }
+      }
+    }
+
+    for (int i = 0; i < numberOfInfected; i++) {
+
+      roles[infected[i]] = roles[infected[i]] + " (INFECTED)";
+    }
+  }
+
+  if (debugMode == false) {
+    system("clear");
+  }
+
+  cout << "King" << endl;
+  cout << "Queen" << endl;
+  if (numberOfPlayers > 10) {
+    cout << "Prince / Astromancer / Druid" << endl;
+  }
+  if (numberOfBDInvestigatives > 0)
+    cout << numberOfBDInvestigatives << " Faction Hard-Counter(s)" << endl;
+  cout << numberOfBD << "-" << numberOfBD + 3 << " Blue Dragon" << endl;
+
+  if (unseenActive == 1) {
+    cout << countUnseen(unseenActive, cultActive, vampiresActive,
+                        infiltrationActive, numberOfEvils)
+         << " Unseen" << endl;
+  }
+  if (cultActive == 1) {
+    cout << countCult(unseenActive, cultActive, vampiresActive,
+                      infiltrationActive, numberOfEvils)
+         << " Cult" << endl;
+  }
+  if (vampiresActive == 1) {
+    cout << countVampires(unseenActive, cultActive, vampiresActive,
+                          infiltrationActive, numberOfEvils)
+         << " Vampire(s)" << endl;
+  }
+  if (infiltrationActive == 1) {
+    cout << countInfiltration(unseenActive, cultActive, vampiresActive,
+                              infiltrationActive, numberOfEvils)
+         << " Infiltrator(s)" << endl;
+  }
+  int num = numberOfNeutralKillers - 2;
+  if (num < 0) {
+    num = 0;
+  }
+
+  int neutralNum = numberOfOtherNeutrals - 1;
+  if (neutralNum < 0) {
+    neutralNum = 0;
+  }
+  if (numberOfPlayers >= 16) {
+    cout << num << "-" << numberOfNeutralKillers << " Neutral Killers" << endl;
+    cout << neutralNum << "-" << numberOfOtherNeutrals + 1 << " Other Neutrals"
+         << endl;
+  } else {
+    cout << neutralNum << "-" << numberOfOtherNeutrals + 1 << " Other Neutrals"
+         << endl;
+  }
+
+  cout << endl;
+
+  if (input == "A" || input == "a" || input == "D" || input == "d") {
+    for (int i = 0; i < numberOfPlayers; i++) {
+      if (input == "D" || input == "d") {
+        roles[i] = convertToFactionType(roles[i]);
+      }
+      printColorCode(roles[i], redCode, blueCode, greenCode, magentaCode,
+                     brightMagentaCode, whiteCode);
+      cout << "(" << i + 1 << ") ";
+      for (int j = 0; j < roles[i].length(); j++) {
+
+        cout << roles[i].at(j);
+        usleep(10000);
+      }
+      cout << endl;
+    }
+  } else if (input == "B" || input == "b") {
+    for (int i = 0; i < numberOfPlayers; i++) {
+      cout << "(" << i + 1 << ") ";
+      for (int j = 0; j < players[i].length(); j++) {
+        cout << players[i].at(j);
+        usleep(10000);
+      }
+      cout << endl;
+    }
+  } else if (input == "C" || input == "c") {
+    for (int i = 0; i < numberOfPlayers; i++) {
+      printColorCode(roles[i], redCode, blueCode, greenCode, magentaCode,
+                     brightMagentaCode, whiteCode);
+      cout << "(" << i + 1 << ") ";
+      for (int j = 0; j < roles[i].length(); j++) {
+        cout << roles[i].at(j);
+        usleep(10000);
+      }
+      cout << " - ";
+      for (int j = 0; j < players[i].length(); j++) {
+        cout << players[i].at(j);
+        usleep(10000);
+      }
+      cout << endl;
+    }
+  }
+
+  cout << endl;
+
+  input = "nothing";
+
+  while (input == "nothing") {
+    cout << "Generate another? Y/N" << endl;
+    cin >> input;
+    if (input == "Y" || input == "y") {
+      system("clear");
+      main();
+    } else if (input == "N" || input == "n") {
+      cout << "Program ended. Created by Evan Kliewer." << endl;
+      input = "something";
+    } else {
+      cout << "Invalid input. Press Y or N!" << endl;
+      input = "nothing";
+    }
+  }
+}
